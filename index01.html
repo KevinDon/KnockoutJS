@@ -1,0 +1,41 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+	<title>KnockoutJS Test</title>
+	<script type="text/javascript" src="jquery-3.2.1.min.js"></script>
+	<script type="text/javascript" src="knockout-3.4.2.js"></script>
+	<script type="text/javascript">
+		(function($){
+			$(function(){
+				//console.log("jQuery")
+				//创建ViewModel ,observables
+				function myViewModel(){
+					var self = this;
+					self.firstname = ko.observable('Kevin');
+					self.lastname = ko.observable('Don');
+					self.fullname = ko.computed(function(){
+						var ownerName;
+						ownerName = self.firstname() + ' ' + self.lastname();
+						return ownerName;
+					});
+					self.capitalizeLastName = function(){
+						var currentVal = self.lastname();
+						self.lastname(currentVal.toUpperCase());//将更新后的值直接当做参数传到lastname下, to read or write an observable's value, you call it as a function.
+					}
+				}
+
+				ko.applyBindings(new myViewModel);
+			})
+		})(jQuery)
+	</script>
+</head>
+<body>  
+	<p>First name: <strong data-bind="text : firstname" >todo</strong></p>
+	<p>Last name: <strong data-bind="text : lastname">todo</strong></p>
+	<p>First Name: <input data-bind="value : firstname"></input></p>
+	<p>Last Name: <input data-bind="value : lastname"></input></p>
+	<p>Full Name: <strong data-bind="text: fullname"></strong> </p>
+	<p><button data-bind="click: capitalizeLastName">GO Caps</button></p>
+</body>
+</html>
